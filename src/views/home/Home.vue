@@ -3,14 +3,14 @@
   <nav-bar class="home-nav">
     <div slot="center">购物街</div>
   </nav-bar>
-  <!-- <home-swiper :banner="banner"></home-swiper> -->
+  <home-swiper :banner="banner"></home-swiper>
   <recommend-view :recommend="recommend"></recommend-view>
   </div>
 </template>
 
 <script>
 import NavBar from 'components/common/navbar/NavBar'
-// import HomeSwiper from './childComps/HomeSwiper'
+import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 // 没有default导出只能用{}
 import {getHomeMultidata} from "network/home"
@@ -20,7 +20,7 @@ export default {
     name:"Home",
     components:{
       NavBar,
-      // Swiper,
+      HomeSwiper,
       // SwiperItem,
       RecommendView
     },
@@ -41,8 +41,26 @@ export default {
 </script>
 
 <style scoped>
-.home-nav {
-  background-color: var(--color-tint);
-  color: azure;
-}
+  .home-nav {
+    background-color: var(--color-tint);
+    color: #fff;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9;
+  }
+  .tab-control {
+    position: sticky;
+    top: 44px;
+    z-index: 9;
+  }
+  .content {
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
+  }
 </style>

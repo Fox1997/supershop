@@ -14,6 +14,7 @@
 export default {
     name:"GoodsListItem",
     props:{
+        // 接收来自父组件的goods-item 
         goodsItem:{
             type:Object,
             default(){

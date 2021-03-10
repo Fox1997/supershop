@@ -3,12 +3,18 @@
   <nav-bar class="home-nav">
     <div slot="center">购物街</div>
   </nav-bar>
+  <!-- 导航栏 -->
   <home-swiper :banner="banner"></home-swiper>
+  <!-- 四个圈圈 -->
   <recommend-view :recommend="recommend"></recommend-view>
+  <!-- 本周流行 -->
   <feature-view/>
+  <!-- 商品类别选择栏 接收tabControl传来的tabClick和index，
+  根据index（0,1,2）来与三种类型进行绑定 -->
   <tab-control class="tab-control" :titles="['流行','新款','精选']"
   @tabClick="tabClick"></tab-control>  
-  <goods-list :goods="goods['pop'].list"/>
+  <!-- 不同类别商品列表 ，将获取的数据传给Good-list组件-->
+  <goods-list :goods="showGoods"/>
 
   </div>
  
@@ -43,20 +49,43 @@ export default {
        recommend:[],
        goods:{
          'pop':{page:0,list:[]},
-         'news':{page:0,list:[]},
+         'new':{page:0,list:[]},
          'sell':{page:0,list:[]}
-       }
+       },
+       currentType:'pop'
+      }
+    },
+    computed:{
+      showGoods(){
+        // 根据不同类别获取商品列表
+        return this.goods[this.currentType].list
       }
     },
     created(){
       //请求首页显示数据
       this.getHomeMultidata()
-      // 请求首页商品数据
+      // 请求首页商品数据，传入不同的type来获取数据
       this.getHomeGoods('pop')
-      this.getHomeGoods('news')
+      this.getHomeGoods('new')
       this.getHomeGoods('sell')
     },
     methods:{
+      // 事件监听相关方法
+      tabClick(index){
+        // console.log(index);
+        switch(index){
+          case 0:
+            this.currentType='pop'
+            break
+          case 1:
+            this.currentType='new'
+            break
+          case 2:
+            this.currentType='sell'
+            break 
+        }
+      },
+      // 网络请求相关方法
       getHomeMultidata(){
         getHomeMultidata().then(res =>{
         // console.log(res);
@@ -67,6 +96,7 @@ export default {
       getHomeGoods(type){
       const page = this.goods[type].page +1
       getHomeGoods(type,page).then(res =>{
+        // 将数据放入goods[type]中，页码累加
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
       })

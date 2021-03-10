@@ -1,5 +1,7 @@
 <template>
   <div class="goods">
+      <!-- 对接受的good数据进行遍历，用goods-list-item展示,
+      遍历goods将每一单独的商品信息item传给子组件goodslistitem -->
       <goods-list-item v-for="(item,index) in goods" 
       :key="index" :goods-item="item"/>
   </div>
@@ -13,6 +15,7 @@ export default {
         GoodsListItem
     },
     props:{
+        // 接收来自home的goods数据，goods=goods[type].list
         goods:{
             type: Array,
             dafault(){

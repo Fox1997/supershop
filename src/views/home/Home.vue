@@ -6,14 +6,18 @@
   <home-swiper :banner="banner"></home-swiper>
   <recommend-view :recommend="recommend"></recommend-view>
   <feature-view/>
+  <tab-control class="tab-control" :titles="['流行','新款','精选']"></tab-control>  
   </div>
 </template>
 
 <script>
-import NavBar from 'components/common/navbar/NavBar'
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
+
+import NavBar from 'components/common/navbar/NavBar'
+import TabControl from 'components/content/tabControl/TabControl'
+
 // 没有default导出只能用{}
 import {getHomeMultidata} from "network/home"
 
@@ -25,7 +29,8 @@ export default {
       HomeSwiper,
       // SwiperItem,
       RecommendView,
-      FeatureView
+      FeatureView,
+      TabControl
     },
     data(){
       return{
@@ -58,6 +63,7 @@ export default {
   }
   .tab-control {
     position: sticky;
+    /* 吸顶功能 */
     top: 44px;
     z-index: 9;
   }

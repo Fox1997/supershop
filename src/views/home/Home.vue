@@ -5,6 +5,7 @@
   </nav-bar>
   <home-swiper :banner="banner"></home-swiper>
   <recommend-view :recommend="recommend"></recommend-view>
+  <feature-view/>
   </div>
 </template>
 
@@ -12,6 +13,7 @@
 import NavBar from 'components/common/navbar/NavBar'
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
+import FeatureView from './childComps/FeatureView'
 // 没有default导出只能用{}
 import {getHomeMultidata} from "network/home"
 
@@ -22,7 +24,8 @@ export default {
       NavBar,
       HomeSwiper,
       // SwiperItem,
-      RecommendView
+      RecommendView,
+      FeatureView
     },
     data(){
       return{
@@ -41,6 +44,9 @@ export default {
 </script>
 
 <style scoped>
+  #home {
+    padding-top: 44px;
+  }
   .home-nav {
     background-color: var(--color-tint);
     color: #fff;

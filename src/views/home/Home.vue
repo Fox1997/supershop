@@ -82,12 +82,26 @@ export default {
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+    },
+    mounted(){
+      const refresh=this.debounce(this.$refs.scroll.refresh,500)
       //监听图片加载完成
       this.$bus.$on('itemImageLoad',() => {
-         this.$refs.scroll.refresh()
+        // this.$refs.scroll.refresh() 执行30次太多，进行防抖函数操作
+        refresh()
       })
     },
     methods:{
+      //防抖函数
+      debounce(func,delay){
+        let timer = null
+        return function(...args){
+          if(timer) clearTimeout(timer)
+          timer = setTimeout(() => {
+            func.apply(this,args)
+          },delay)
+        }
+      },
       // 事件监听相关方法
       tabClick(index){
         switch(index){

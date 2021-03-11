@@ -82,6 +82,10 @@ export default {
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+      //监听图片加载完成
+      this.$bus.$on('itemImageLoad',() => {
+         this.$refs.scroll.refresh()
+      })
     },
     methods:{
       // 事件监听相关方法
@@ -108,7 +112,7 @@ export default {
       //下拉加载更多
       loadMore(){
         this.getHomeGoods(this.currentType)
-        this.$refs.scroll.scroll.refresh()
+        this.$refs.scroll.refresh()
       },
       // 网络请求相关方法
       getHomeMultidata(){

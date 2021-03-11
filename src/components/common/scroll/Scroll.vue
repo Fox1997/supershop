@@ -33,23 +33,23 @@ export default {
     mounted(){
         // document.querySelector('.wrapper')会引发出现多个class="wrapper"时，
         //  拿出的class错误
-        // this.scroll=new BScroll(document.querySelector('.wrapper'),{
-        // })
+        // this.scroll=new BScroll(document.querySelector('.wrapper'),{})
         this.scroll = new BScroll(this.$refs.wrapper,{
-        probeType:this.probeType,
-        // 0,1都不能监听滚动，2不能监听惯性滚动
-        pullUpLoad:this.pullUpLoad,
+        probeType:this.probeType, // 0,1都不能监听滚动，2不能监听惯性滚动
+        pullUpLoad:this.pullUpLoad,//上拉加载更多
         click: true,
-        //上拉加载更多
         })
         this.scroll.on('scroll',(position) => {
-        // console.log(position);
         this.$emit('scroll',position)
       })
         this.scroll.on('pullingUp',() =>{
-        // console.log('上拉加载更多');
         this.$emit('pullingUp')
       })
+    },
+    methods:{
+      scrollTo(x,y,time=3000){
+        this.scroll.scrollTo(x,y,time)
+      }
     }
 }
 </script> 

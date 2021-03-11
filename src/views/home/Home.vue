@@ -5,8 +5,9 @@
   </nav-bar>
   <!-- 导航栏 -->
   <scroll class="content" 
-  ref="scroll" :probe-type="3" :pull-up-load="true"
-  >
+  ref="scroll" :probe-type="3" 
+  @scroll="contentScroll"
+  :pull-up-load="true">
   <home-swiper :banner="banner"/>
   <!-- 四个圈圈 -->
   <recommend-view :recommend="recommend"/>
@@ -19,6 +20,8 @@
   <!-- 不同类别商品列表 ，将获取的数据传给Good-list组件-->
   <goods-list :goods="showGoods"/>
   </scroll>
+  <!-- 组件不能直接通过@click监听点击事件,用@click.native监听 -->
+  <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
  
 </template>
@@ -32,6 +35,7 @@ import Scroll from 'components/common/scroll/Scroll'
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
+import BackTop from 'components/content/backTop/BackTop'
 // import GoodsListItem from 'components/content/goods/GoodListItem'
 // 没有default导出只能用{},network
 import { getHomeMultidata, getHomeGoods} from "network/home"
@@ -47,7 +51,8 @@ export default {
       FeatureView,
       TabControl,
       GoodsList,
-      Scroll
+      Scroll,
+      BackTop
     },
     data(){
       return{
@@ -58,7 +63,8 @@ export default {
          'new':{page:0,list:[]},
          'sell':{page:0,list:[]}
        },
-       currentType:'pop'
+       currentType:'pop',
+       isShowBackTop: false
       }
     },
     computed:{
@@ -78,7 +84,6 @@ export default {
     methods:{
       // 事件监听相关方法
       tabClick(index){
-        // console.log(index);
         switch(index){
           case 0:
             this.currentType='pop'
@@ -90,6 +95,13 @@ export default {
             this.currentType='sell'
             break 
         }
+      },
+      backClick(){
+        this.$refs.scroll.scroll.scrollTo(0,0)
+      },
+      // 返回的隐藏显示
+      contentScroll(position){
+        this.isShowBackTop = (-position.y) >1000
       },
       // 网络请求相关方法
       getHomeMultidata(){

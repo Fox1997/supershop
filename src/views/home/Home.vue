@@ -5,9 +5,11 @@
   </nav-bar>
   <!-- 导航栏 -->
   <scroll class="content" 
-  ref="scroll" :probe-type="3" 
+  ref="scroll" 
+  :probe-type="3" 
   @scroll="contentScroll"
-  :pull-up-load="true">
+  :pull-up-load="true"
+  @pullingUp="loadMore">
   <home-swiper :banner="banner"/>
   <!-- 四个圈圈 -->
   <recommend-view :recommend="recommend"/>
@@ -103,6 +105,11 @@ export default {
       contentScroll(position){
         this.isShowBackTop = (-position.y) >1000
       },
+      //下拉加载更多
+      loadMore(){
+        this.getHomeGoods(this.currentType)
+        this.$refs.scroll.scroll.refresh()
+      },
       // 网络请求相关方法
       getHomeMultidata(){
         getHomeMultidata().then(res =>{
@@ -117,6 +124,7 @@ export default {
         // 将数据放入goods[type]中，页码累加
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
+        this.$refs.scroll.finishPullUp()
       })
       }   
 

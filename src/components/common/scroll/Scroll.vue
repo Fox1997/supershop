@@ -49,6 +49,9 @@ export default {
     methods:{
       scrollTo(x,y,time=3000){
         this.scroll.scrollTo(x,y,time)
+      },
+      finishPullUp(){
+        this.scroll.finishPullUp()
       }
     }
 }

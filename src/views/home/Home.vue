@@ -1,21 +1,24 @@
 <template>
   <div id="home" class="wrapper">
   <nav-bar class="home-nav">
-    <div slot="center">购物街</div>
+  <div slot="center">购物街</div>
   </nav-bar>
   <!-- 导航栏 -->
-  <home-swiper :banner="banner"></home-swiper>
+  <scroll class="content" 
+  ref="scroll" :probe-type="3" :pull-up-load="true"
+  >
+  <home-swiper :banner="banner"/>
   <!-- 四个圈圈 -->
-  <recommend-view :recommend="recommend"></recommend-view>
+  <recommend-view :recommend="recommend"/>
   <!-- 本周流行 -->
   <feature-view/>
   <!-- 商品类别选择栏 接收tabControl传来的tabClick和index，
   根据index（0,1,2）来与三种类型进行绑定 -->
   <tab-control class="tab-control" :titles="['流行','新款','精选']"
-  @tabClick="tabClick"></tab-control>  
+  @tabClick="tabClick"/>
   <!-- 不同类别商品列表 ，将获取的数据传给Good-list组件-->
   <goods-list :goods="showGoods"/>
-
+  </scroll>
   </div>
  
 </template>
@@ -25,12 +28,14 @@ import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
 
+import Scroll from 'components/common/scroll/Scroll'
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 // import GoodsListItem from 'components/content/goods/GoodListItem'
 // 没有default导出只能用{},network
 import { getHomeMultidata, getHomeGoods} from "network/home"
+
 
 export default {
     name:"Home",
@@ -41,7 +46,8 @@ export default {
       RecommendView,
       FeatureView,
       TabControl,
-      GoodsList
+      GoodsList,
+      Scroll
     },
     data(){
       return{
@@ -108,9 +114,9 @@ export default {
 
 <style scoped>
   #home {
-    padding-top: 44px;
-       /* height: 100vh;
-    position: relative; */
+    /* padding-top: 44px; */
+    height: 100vh;
+    position: relative; 
   }
   .home-nav {
     background-color: var(--color-tint);

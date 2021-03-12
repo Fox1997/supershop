@@ -2,7 +2,7 @@
   <swiper>
     <swiper-item v-for="(item, id) in banner" :key="id">
       <a :href="item.link">
-        <img :src="item.image" alt="">
+        <img :src="item.image" alt="" @load="imgLoad">
       </a>
     </swiper-item>
   </swiper>
@@ -20,9 +20,24 @@
         }
       }
     },
+    data(){
+      return {
+      //用于对轮播图加载发送信号控制成1次的flag
+      isLoad: false
+      }
+    },
     components: {
       Swiper,
       SwiperItem
+    },
+    methods:{
+      imgLoad(){
+        if(!this.isLoad){
+          this.$emit('SwiperLoad')
+          this.isLoad = true
+        }
+        
+      }
     }
   }
 </script>

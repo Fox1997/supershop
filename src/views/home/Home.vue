@@ -85,6 +85,7 @@ export default {
     destroyed(){
 
     },
+    // 对之前浏览过的Home页面的状态进行保留
     activated(){
       this.$refs.scroll.scrollTo(0,this.saveY,0)
       this.$refs.scroll.refresh()

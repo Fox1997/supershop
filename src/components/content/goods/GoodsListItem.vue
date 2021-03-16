@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item" @click="itemClick">
       <!-- @load监听图片是否加载完成 -->
-      <img :src="goodsItem.show.img" alt="" @load="imgLoad">
+      <img :src="showImage" alt="" @load="imgLoad">
       <div class="goods-info">
         <p>{{goodsItem.title}}</p>
         <span class="price">{{goodsItem.price}}</span>
@@ -23,9 +23,19 @@ export default {
             }
         }
     },
+    computed:{
+      showImage(){
+        return this.goodsItem.image || this.goodsItem.show.img
+      }
+    },
     methods:{
         imgLoad(){
-            this.$bus.$emit('itemImageLoad')
+          // if(this.$route.path.indexOf('/home')){
+          //   this.$bus.$emit('itemImageLoad')
+          // }else if(this.$route.path.indexOf('/detail')){
+          //   this.$bus.$emit('detailItemImgLoad')
+          // }   
+          this.$bus.$emit('itemImageLoad')
         },
         itemClick(){
           //跳转到详情页,将每个图片的id传过去，存在路由之中

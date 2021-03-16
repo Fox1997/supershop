@@ -44,7 +44,8 @@ import BackTop from 'components/content/backTop/BackTop'
 // import GoodsListItem from 'components/content/goods/GoodListItem'
 // 没有default导出只能用{},network
 import { getHomeMultidata, getHomeGoods} from "network/home"
-import { debounce } from "common/utils"
+import {itemListenerMixin } from "common/mixin"
+
 
 export default {
     name:"Home",
@@ -59,6 +60,7 @@ export default {
       Scroll,
       BackTop
     },
+    mixins:[itemListenerMixin],
     data(){
       return{
        banner:[],
@@ -73,7 +75,6 @@ export default {
        tabOffsetTop:0,
        isTabFixed:false,
        saveY:0
-
       }
     },
     computed:{
@@ -91,7 +92,10 @@ export default {
       this.$refs.scroll.refresh()
     },
     deactivated(){
+      //保存Y值
       this.saveY = this.$refs.scroll.getScrollY()
+      //取消全局事件监听
+      this.$bus.$off('itemImageLoad',this.homeImageListen)
     },
     created(){
       //请求首页显示数据
@@ -103,12 +107,8 @@ export default {
      
     },
     mounted(){
-      const refresh=debounce(this.$refs.scroll.refresh,500)
-      //监听图片加载完成
-      this.$bus.$on('itemImageLoad',() => {
-        // this.$refs.scroll.refresh() 执行30次太多，进行防抖函数操作
-        refresh()
-      })
+      //凡是要用到的函数不能写在created里面，因为没加载出来
+      //  this.tabClick(0)
     },
     methods:{
       // 事件监听相关方法

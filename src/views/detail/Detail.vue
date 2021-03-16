@@ -1,7 +1,9 @@
 <template>
   <div class="detail">
-    <detail-nav-bar @titleClick="titleClick"/>
-    <scroll class="content" ref="scroll">
+    <detail-nav-bar @titleClick="titleClick" ref="nav"/>
+    <scroll class="content" ref="scroll"
+    :probe-type="3" 
+     @scroll="contentScroll">
     <detail-swiper :top-images="topImages"/>
     <detail-base-info :goods="goodsInfo"/>
     <detail-shop-info :shop="shopInfo"/>
@@ -55,7 +57,8 @@ export default {
             commentInfo:{},
             recommends:[],
             themeTopY:[],
-            getThemeTopY:null
+            getThemeTopY:null,
+            currentIndex:0
         }
     },
     created(){
@@ -111,8 +114,28 @@ export default {
             this.$refs.scroll.refresh();
             this.getThemeTopY()
         },
+        //点击上方的（商品，参数，评论，推荐）进行展示
         titleClick(index){
           this.$refs.scroll.scrollTo(0,-this.themeTopY[index],100)
+        },
+        //滚动页面将内容和上方（商品，参数，评论，推荐）进行对照
+        contentScroll(position){
+           const positionY= -position.y;
+           for(let i= 0;i< this.themeTopY.length;i++){
+               //i 是一个字符串
+            //    parseInt(i)
+               if(this.currentIndex !== i &&(i<this.themeTopY.length-1 && positionY>= this.themeTopY[i]&&positionY < this.themeTopY[i+1]) )
+               {
+                   this.currentIndex = i
+                //    console.log(this.currentIndex);
+                  this.$refs.nav.currentIndex =this.currentIndex
+               }
+               else if(this.currentIndex !== i && (i==this.themeTopY.length-1 && positionY>= this.themeTopY[i])){
+                    this.currentIndex =i
+                    this.$refs.nav.currentIndex =this.currentIndex
+                //    console.log(this.currentIndex);
+               }
+           }
         }
     },
     mounted(){   

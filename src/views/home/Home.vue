@@ -108,7 +108,7 @@ export default {
     },
     mounted(){
       //凡是要用到的函数不能写在created里面，因为没加载出来
-      //  this.tabClick(0)
+       this.tabClick(0)
     },
     methods:{
       // 事件监听相关方法

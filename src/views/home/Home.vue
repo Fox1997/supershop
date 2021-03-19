@@ -40,11 +40,10 @@ import Scroll from 'components/common/scroll/Scroll'
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
-import BackTop from 'components/content/backTop/BackTop'
 // import GoodsListItem from 'components/content/goods/GoodListItem'
 // 没有default导出只能用{},network
 import { getHomeMultidata, getHomeGoods} from "network/home"
-import {itemListenerMixin } from "common/mixin"
+import {itemListenerMixin,backTopMixin } from "common/mixin"
 
 
 export default {
@@ -57,10 +56,9 @@ export default {
       FeatureView,
       TabControl,
       GoodsList,
-      Scroll,
-      BackTop
+      Scroll
     },
-    mixins:[itemListenerMixin],
+    mixins:[itemListenerMixin,backTopMixin],
     data(){
       return{
        banner:[],
@@ -71,7 +69,6 @@ export default {
          'sell':{page:0,list:[]}
        },
        currentType:'pop',
-       isShowBackTop: false,
        tabOffsetTop:0,
        isTabFixed:false,
        saveY:0
@@ -127,13 +124,10 @@ export default {
         this.$refs.tabControl1.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index;
       },
-      backClick(){
-        this.$refs.scroll.scroll.scrollTo(0,0)
-      },
       // 返回的隐藏显示
       contentScroll(position){
         // 判断backTop是否显示
-        this.isShowBackTop = (-position.y) >1000
+        this.listenShowBackTop(position)
         // 判断tabControl是否吸顶
         this.isTabFixed = (-position.y) >this.tabOffsetTop
       },

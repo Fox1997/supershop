@@ -13,7 +13,7 @@
     <goods-list ref="recommend" :goods="recommends"></goods-list>
     </scroll> 
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
-    <detail-bottom-bar></detail-bottom-bar> 
+    <detail-bottom-bar @addCart = "addToCart"></detail-bottom-bar> 
   </div>
 
 </template>
@@ -145,6 +145,18 @@ export default {
            }
           this.listenShowBackTop(position)
         },
+        addToCart(){
+            //获取商品信息
+            const product = {};
+            product.image = this.topImages[0];
+            product.title = this.goodsInfo.title;
+            product.price = this.goodsInfo.realPrice;
+            product.iid = this.iid;              
+            //加入购物车,addCart对应store里面mutitaions的名称
+            // this.$store.commit('addCart',product)
+            this.$store.dispatch('addCart',product)
+
+        }
    
     },
     mounted(){   

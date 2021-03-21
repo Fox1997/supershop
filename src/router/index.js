@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 const Home =() => import('../views/home/Home')
 const Category = () => import('../views/category/Category')
 const Mine = () => import('../views/mine/Mine')
-const Shopcar = () => import('../views/shopcar/Shopcar')
+const Shopcart = () => import('../views/shopcart/Cart')
 const Detail = () => import('../views/detail/Detail')
 
 // 1.安装插件
@@ -21,7 +21,7 @@ const routes = [
         component:Home
     },
     {
-        path:'/mine',
+        path:'/profile',
         component:Mine
     },
     {
@@ -29,8 +29,8 @@ const routes = [
         component:Category
     },
     {
-        path:'/shopcar',
-        component:Shopcar
+        path:'/cart',
+        component:Shopcart
     },
     {   
         path:'/detail/:iid',

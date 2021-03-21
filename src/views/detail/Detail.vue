@@ -30,6 +30,7 @@ import DetailBottomBar from './childComps/DetailBottomBar'
 
 import Scroll from 'components/common/scroll/Scroll'
 import GoodsList from 'components/content/goods/GoodsList'
+// import Toast from 'components/common/toast/Toast'
 
 import {debounce} from "common/utils"
 import {itemListenerMixin,backTopMixin} from "common/mixin"
@@ -47,7 +48,8 @@ export default {
       DetailParamsInfo,
       DetailCommentInfo,
       GoodsList,
-      DetailBottomBar
+      DetailBottomBar,
+    //   Toast
     },
     mixins:[itemListenerMixin,backTopMixin],
     data(){
@@ -62,7 +64,7 @@ export default {
             recommends:[],
             themeTopY:[],
             getThemeTopY:null,
-            currentIndex:0
+            currentIndex:0,
         }
     },
     created(){
@@ -110,7 +112,7 @@ export default {
             this.themeTopY.push(this.$refs.params.$el.offsetTop-40);
             this.themeTopY.push(this.$refs.comment.$el.offsetTop-40);
             this.themeTopY.push(this.$refs.recommend.$el.offsetTop-40)
-            console.log(this.themeTopY);
+            // console.log(this.themeTopY);
         })
     },
     methods:{
@@ -154,7 +156,18 @@ export default {
             product.iid = this.iid;              
             //加入购物车,addCart对应store里面mutitaions的名称
             // this.$store.commit('addCart',product)
-            this.$store.dispatch('addCart',product)
+            this.$store.dispatch('addCart',product).then(res =>{
+              //console.log(res);  
+            //   this.show = true;
+            //   this.message = res;
+            //   setTimeout(()=>{
+            //       this.show = false;
+            //       this.message = ''
+            //   },3000)
+            this.$toast.show(res,3000)
+            })
+            //商品添加状态显示
+
 
         }
    

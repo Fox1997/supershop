@@ -16,12 +16,15 @@ Vue.prototype.$bus = new Vue()
 Vue.use(Toast)
 
 // 解决移动端300毫秒延迟问题
+// npm install fastclick --save
 FastClick.attach(document.body)
 
-//图片未加载出来时，设置占位图
+//使用懒加载，用v-lazy代替src，图片未加载出来时，设置占位图
+// npm install vue-lazyload --save
 Vue.use(VueLazyLoad,{
   loading:require('assets/image/common/placeholder.png')
 })
+
 new Vue({
   render: h => h(App),
   router,
